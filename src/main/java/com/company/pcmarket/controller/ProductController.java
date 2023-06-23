@@ -28,9 +28,25 @@ public class ProductController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> addProduct(@PathVariable Integer body) {
+    public ResponseEntity<?> deleteProduct(@PathVariable Integer body) {
         repository.deleteById(body);
         return ResponseEntity.ok(null);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> editProduct(
+            @PathVariable Integer id,
+            @RequestBody String productName) {
+        Product product = repository.getById(id);
+        product.setName(productName);
+        return ResponseEntity.ok(repository.save(product));
+    }
+
+    @PostMapping
+    public ResponseEntity<?> addProduct(@RequestBody String productName) {
+        Product product = new Product();
+        product.setName(productName);
+        return ResponseEntity.ok(repository.save(product));
     }
 
 
